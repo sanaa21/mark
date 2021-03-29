@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html>
+   <head>
+   <style type = "text/css"> 
+   .a{padding:140px;}
+   .b{padding:5px;}
+   
+   
+  
+   
+   body form{ border:solid;
+		padding:30px;
+		border-color:gray;
+		margin-right:120px;
+		background-color:powderblue; }
+   
+   p { margin: 0px; }
+#welcomeMessage { margin-bottom: 10px; font-weight: bold; }
+input[type = "text"] { width: 250px; }
+
+/* list item styles */
+span { margin-left: 10px; display: inline-block; width: 100px; }
+li { list-style-type: none; width: 220px;}
+li:first-child { border-top: 1px solid grey; }
+li:nth-child(even) { background-color: lightyellow;
+   border-bottom: 1px solid grey; }
+li:nth-child(odd) { background-color: lightblue; 
+   border-bottom: 1px solid grey; }
+
+   .d table        { width: 300px;
+                border-collapse:collapse; 
+                background-color: lightblue; }
+ .d table, td, th { border: 1px solid black; 
+                padding: 4px; }
+.d th            { text-align: left; 
+                color: white;
+                background-color: blue; }
+.d tr.oddrow    { background-color: white; }
+   </style>
+   
+      <meta charset = "utf-8">
+      <title>Student Marks</title>
+	  
+	  
+    
+      <script>
+
+
+
+var all = new Array(); 
+	var results = "";
+	
+	var table  ='<table style="width:800px;text-align:left;"><caption style="text-align:left;"><h2>Previously marks</h2></caption>';
+	var markup ='<table style="width:800px;text-align:left;"><caption style="text-align:left;"><h2>Best Students marks </h2></caption>';
+	var tags;
+	function start() 
+	{	
+		var bb = document.getElementById( "grade" );
+		bb.addEventListener( "click", Compute , false );
+		var sh = document.getElementById( "add" );		
+		sh.addEventListener( "click", ShowStudent , false );
+		var n = document.getElementById( "clearButton" );		
+		n.addEventListener( "click", nn , false );
+		loadSearches();
+	}
+	function Compute()
+	{
+		var fullname = document.getElementById( "fname" );
+		var firstmark = document.getElementById( "fm" );
+		var fm = parseInt(firstmark.value);
+		var secondmark = document.getElementById( "sm" );
+		var sm = parseInt(secondmark.value);
+		var finalmark = document.getElementById( "lm" );
+		var lm = parseInt(finalmark.value);
+		var participation = document.getElementById( "pm" );
+		var pm = parseInt(participation.value);
+		var total = fm + sm + lm + pm;
+		var bb = document.getElementById( "grade" );
+		
+		var y = document.getElementById( "x" );
+		
+		var i;
+		if( fullname.value == "" || firstmark.value == "" || secondmark.value == "" || finalmark.value == "" || participation.value == "" )
+		{
+			window.alert("Sorry!!!! Please fill in all texts");
+			
+			document.getElementById('fullname').className = 'nameanimation';
+			document.getElementById('firstmark').className = 'markanimation';
+			document.getElementById('secondmark').className = 'markanimation';
+			document.getElementById('finalmark').className = 'markanimation';
+			document.getElementById('participation').className = 'markanimation';
+		}
+		else
+		{
+			for(i=0; i < fullname.value.length; i++ )
+			{
+				if( ( (fullname.value.charAt(i) >= "0") && (fullname.value.charAt(i) <= "9") ) )
+				{
+					window.alert("The Name Should be Characters .. Please re enter the Full Name");
+					document.getElementById("name").innerHTML = "*";
+					document.getElementById("fullname").focus();
+					document.getElementById('fullname').className = 'nameanimation';
+					
+					return false;
+				}
+			}
+			for(i=0; i < firstmark.value.length; i++ )
+			{
+				if( ( (firstmark.value.charAt(i) >= "a") && (firstmark.value.charAt(i) <= "z") ) )
+				{
+					window.alert("The Mark Should be Numbers .. Please re enter the First Mark");
+					document.getElementById("first").innerHTML = "*";
+					document.getElementById("firstmark").focus();
+					document.getElementById('firstmark').className = 'markanimation';
+					
+					return false;
+				}
+			}
+			for(i=0; i < secondmark.value.length; i++ )
+			{
+				if( ( (secondmark.value.charAt(i) >= "a") && (secondmark.value.charAt(i) <= "z") ) )
+				{
+					window.alert("The Mark Should be Numbers .. Please re enter the Second Mark");
+					document.getElementById("second").innerHTML = "*";
+					document.getElementById("secondmark").focus();
+					document.getElementById('secondmark').className = 'markanimation';
+					
+					return false;
+				}
+			}
+			for(i=0; i < finalmark.value.length; i++ )
+			{
+				if( ( (finalmark.value.charAt(i) >= "a") && (finalmark.value.charAt(i) <= "z") ) )
+				{
+					window.alert("The Mark Should be Numbers .. Please re enter the Final Mark");
+					document.getElementById("final").innerHTML = "*";
+					document.getElementById("finalmark").focus();
+					document.getElementById('finalmark').className = 'markanimation';
+					
+					return false;
+				}
+			}
+			if( fm > "20" || fm < "0")
+			{
+				alert("Error: Please Enter First Mark Between 0-20!");
+				document.getElementById("first").innerHTML = "*";
+				document.getElementById("firstmark").focus();
+				document.getElementById('firstmark').className = 'markanimation';
+				
+				return false;
+			}
+			else if( sm > "20" || sm < "0")
+			{
+				alert("Error: Please Enter Second Mark Between 0-20!");
+				document.getElementById("second").innerHTML = "*";
+				document.getElementById("secondmark").focus();
+				document.getElementById('secondmark').className = 'markanimation';
+				
+				return false;
+			}
+			else if( lm > "50" || lm < "0")
+			{
+				alert("Error: Please Enter Final Mark Between 0-50!");
+				document.getElementById("final").innerHTML = "*";
+				document.getElementById("finalmark").focus();
+				document.getElementById('finalmark').className = 'markanimation';
+				
+				return false;
+			}
+			else if( pm > "10" || pm < "0")
+			{
+				alert("Error: Please Enter Participation Mark Between 0-10!");
+				document.getElementById("ppp").innerHTML = "*";
+				document.getElementById("participation").focus();
+				document.getElementById('participation').className = 'markanimation';
+				
+				return false;
+			}
+			else if( document.getElementById("yes").checked )
+			{	
+				var str="";
+				if( total >= "0" && total <= "59")
+				{
+					window.alert( fullname.value + ", Total Mark = " + total + ", Grade is F ");
+					res.value = fullname.value + ", Total Mark = " + total + ", Grade is F ";
+					x.style.background = "red";
+					var  obj = {"Name" : fname.value , "First" : fm.value , "Second":sm.value, "Final" :lm.value, "Part":pm.value, "Result":"Fail" ,"Sym":"F"};
+					all.push(obj);
+					
+				}
+				else 
+				{	
+					if( total >= "60" && total <= "69")
+					{
+						x.value = fullname.value + ", Total Mark = " + total + ", Grade is D ";
+						
+						str="D";
+					}
+					else if( total >= "70" && total <= "79")
+					{
+						x.value = fullname.value + ", Total Mark = " + total + ", Grade is C ";
+					
+						str="C";
+					}
+					else if( total >= "80" && total <= "89")
+					{
+						x.value = fullname.value + ", Total Mark = " + total + ", Grade is B ";
+						
+						
+						str="B";
+					}
+					else if( total >= "90" && total <= "100")
+					{
+						var query = fullname.value;
+						var tag = total;
+						localStorage.setItem( query , tag );
+						x.value = fullname.value + ", Total Mark = " + total + ", Grade is A ";
+						
+						
+						str="A";
+						document.getElementById("x").innerHTML = "</div>";
+					}
+					var  obj = {"Name" : fullname.value , 
+								"First" : firstmark.value , 
+								"Second" : secondmark.value , 
+								"Final" : finalmark.value , 
+								"Part" : participation.value , 
+								"Result" : "Pass" ,
+								"Sym" : str };
+					all.push(obj);
+				}
+			}
+			else
+			{
+				window.alert("Unfortunately You Are Fail");
+				x.value = fullname.value + ", Total Mark = " + total + ", Grade is F ";
+				x.style.background = "red";
+				
+				var  obj = {"Name" : fullname.value , 
+							"First" : firstmark.value , 
+							"Second" : secondmark.value , 
+							"Final" : finalmark.value , 
+							"Part" : participation.value , 
+							"Result" : "Deprived" ,
+							"Sym" : "Deprived" };
+				all.push(obj);
+			}
+		}
+	}
+	
+	
+	
+	image1 = new Image();
+image1.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkfdJY-Yn0F5rGQ0Rejub9_cc4kE3KxvI3lA&usqp=CAU" ;
+image2 = new Image();
+image2.src = "https://www.biologyforlife.com/uploads/2/2/3/9/22392738/grade-bands_orig.jpg";
+
+function mouseOver( e )
+{  
+   if ( e.target.getAttribute( "id" ) == "heading" )
+   {
+      e.target.setAttribute( "src", image2.getAttribute( "src" ) );
+   } 
+   if ( e.target.tagName.toLowerCase() == "li" )
+   {
+      e.target.setAttribute( "style", 
+         "color: " + e.target.getAttribute( "id" ) );
+   } }
+
+function mouseOut( e )
+{
+  
+   if ( e.target.getAttribute( "id" ) == "heading" )
+   {
+      e.target.setAttribute( "src", image1.getAttribute( "src" ) );
+   } 
+   if ( e.target.tagName.toLowerCase() == "li" )
+   {
+      e.target.innerHTML = e.target.getAttribute( "id" );
+   } }
+//////////////
+
+var helpArray = [ "Enter your name in this input box.",
+  "Enter your first mark.",
+  "Enter your secound mark.",
+  "Enter your final mark.", "" ];
+var helpText;
+
+function init()
+{
+   helpText = document.getElementById( "helpText" );
+   
+   // register listeners
+   registerListeners(document.getElementById( "fname" ), 0 );
+   registerListeners(document.getElementById( "fm" ), 1 );
+   registerListeners(document.getElementById( "sm" ), 2 );
+   registerListeners(document.getElementById( "lm" ), 3 );
+  
+
+
+
+
+
+ var myForm = document.getElementById( "myForm" );
+   myForm.addEventListener( "submit", 
+      function()
+      {                                                         
+         return confirm( "Are you sure you want to submit?" );  
+      }, 
+      false );
+   myForm.addEventListener( "reset", 
+      function()
+      {                                                         
+         return confirm( "Are you sure you want to reset?" );  
+      }, 
+      false );
+} 
+
+
+
+function registerListeners( object, messageNumber )
+{
+   object.addEventListener( "focus", 
+      function() { helpText.innerHTML = helpArray[ messageNumber ]; },
+      false );
+   object.addEventListener( "blur", 
+      function() { helpText.innerHTML = helpArray[ 4 ]; }, false );
+} 
+
+window.addEventListener( "load", init, false );
+
+
+
+
+
+
+
+
+	
+/////////////	
+
+//function documentClick() 
+//{
+  // alert( "You clicked in the document." );  
+//} // end function documentClick
+
+function bubble( e )
+{
+   alert( "This will bubble." );
+   e.cancelBubble = false;
+} 
+
+function noBubble( e )
+{
+   alert( "This will not bubble." );
+   e.cancelBubble = true;
+} 
+
+function x()
+{
+   document.addEventListener( "click", documentClick, false );                        
+   document.getElementById( "bubble" ).addEventListener( 
+      "click", bubble, false );    
+   document.getElementById( "noBubble" ).addEventListener( 
+      "click", noBubble, false );    
+} 
+
+window.addEventListener( "load", x, false );
+	window.addEventListener( "load", start , false);
+	document.addEventListener( "mouseover", mouseOver, false );
+document.addEventListener( "mouseout", mouseOut, false );
+	
+	</script>
+	  </head>
+   <body>
+      <form id = "myForm" action = "">
+         <table> <tr>
+		 <label class="a">Student Name </tr><br>
+           <tr> <input id = "fname" type = "text"></tr>
+		   <br><br><br>
+		   <tr> First Exam(20%)  <label class="a"> Second Exam(20%)  <label class="a">   Final Exam(50%)  <label class="a">  Participation </tr><br>
+           <tr>
+		   <input id = "fm" type = "text" maxlength="2"><label class="b">
+		   <input id = "sm" type = "text" maxlength="2"><label class="b">
+		   <input id = "lm" type = "text" maxlength="2"><label class="b">
+		   <input id = "pm" type = "number" min=1 max=10></tr><br><br>
+		   
+		   
+			 
+						<tr> <td colspan="4">
+							<fieldset >
+								<legend><label >Absence</label></legend>
+								<input type="radio" id="yes" name="ad" value="0" checked>  <7 times  <br>
+								<input type="radio" id="no" name="ad" value="1">  >=7 times <br>
+							</fieldset>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4">
+							<input type="button" id="grade" value="Compute" />	
+                             <input id = "x" type = "text" formnovalidate="on">	<br><br>	
+                               
+                             						   
+						</td>
+					</tr>  
+					<tr> 
+					<td><input id = "submit" type = "submit"> 
+            <input id = "reset" type = "reset"></td> </tr>
+					
+					</table>
+
+		 
+      </form> 
+	  
+	<br><br>
+	
+	<p id = "helpText"></p>
+	<br>
+	<div>
+         <ol>
+            <li id = "Blue">Hello</li>
+	   </ol>
+      </div>
+	 <br>
+	<h1><img src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkfdJY-Yn0F5rGQ0Rejub9_cc4kE3KxvI3lA&usqp=CAU" id = "heading"></h1>
+	<br><br>
+	  <p id = "bubble">Bubbling enabled.</p>
+      <p id = "noBubble">Bubbling disabled.</p>
+  
+	  </body> 
+	  </html>
+	 
+	 
+	  
